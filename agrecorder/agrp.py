@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # standard
 import datetime
 import os
@@ -10,8 +8,6 @@ import time
 # m3u8
 import m3u8
 
-# debug
-from pprint import pprint
 
 class HLS:
 
@@ -21,7 +17,7 @@ class HLS:
         pass
 
     @staticmethod
-    def download(url, output_dir, headers) -> list:
+    def download(url: str, output_dir: str, headers: dict = None) -> list:
         file_details = []
         playlist = m3u8.load(url)
         for segment in playlist.segments:
@@ -41,36 +37,37 @@ class HLS:
         return file_details
 
     @staticmethod
-    def encode(file_details, output_dir, file_path) -> None:
+    def duration(file_details: list, margin: int = 0) -> int:
+        return sum([file_detail['duration'] for file_detail in file_details]) - sum([file_detail['duration'] for i, file_detail in enumerate(reversed(file_details)) if margin > i])
+
+    @staticmethod
+    def encode(file_details: list, output_dir: str, file_path: str, ffmpeg_path: str) -> None:
         if not file_details:
             return
 
         filelist_path = output_dir + os.path.splitext(os.path.basename(file_path))[0] + '.txt'
         with open(filelist_path, 'w') as f:
-            f.write('\n'.join(['file ' + file_detail['name'] for file_detail in file_details]))
+            f.write('\n'.join(['file ' + file_detail['name']
+                    for file_detail in file_details]))
 
-        command = 'ffmpeg -y -loglevel error -f concat -i ' + filelist_path + ' -c copy ' + file_path
+        command = f'{ffmpeg_path} -y -loglevel error -f concat -i {filelist_path} -c copy {file_path}'
         subprocess.run(command, shell=True)
-
-    @staticmethod
-    def duration(file_details, margin=0) -> int:
-        return sum([file_detail['duration'] for file_detail in file_details]) - sum([file_detail['duration'] for i, file_detail in enumerate(reversed(file_details)) if margin > i])
 
 
 class AGRP:
 
     # public
 
-    def __init__(self, ag_hls_url, output_dir=None, headers=None):
+    def __init__(self, ag_hls_url: str, output_dir: str, headers: dict = None):
         self.ag_hls_url = ag_hls_url
         self.output_dir = output_dir
         self.headers = headers
         self.file_details = []
 
-    def download(self):
+    def download(self) -> None:
         self.file_details.append(HLS.download(self.ag_hls_url, self.output_dir, self.headers))
 
-    def download_until(self, until_datetime, interval_sec=None):
+    def download_until(self, until_datetime: datetime.datetime, interval_sec: int = None) -> None:
         interval_auto = False
         if not interval_sec:
             interval_sec = 0
@@ -88,20 +85,20 @@ class AGRP:
 
             else:
                 elapsed_sec = 0
-                file_details = HLS.download(self.ag_hls_url, self.headers, self.output_dir)
+                file_details = HLS.download(self.ag_hls_url, self.output_dir, self.headers)
                 if interval_auto:
                     interval_sec = HLS.duration(file_details, 1)
 
                 self.file_details.append(file_details)
 
-        self.file_details.append(HLS.download(self.ag_hls_url, self.headers, self.output_dir))
+        self.file_details.append(HLS.download(self.ag_hls_url, self.output_dir, self.headers))
 
-    def encode(self, file_path):
-        HLS.encode(self._make_unique_file_details(), self.output_dir, file_path)
+    def encode(self, file_path: str, ffmpeg_path: str) -> None:
+        HLS.encode(self._make_unique_file_details(), self.output_dir, file_path, ffmpeg_path)
 
     # private
 
-    def _make_unique_file_details(self):
+    def _make_unique_file_details(self) -> list:
         unique_file_details = []
         for file_details in self.file_details:
             for file_detail in file_details:
@@ -109,13 +106,4 @@ class AGRP:
                     unique_file_details.append(file_detail)
 
         return unique_file_details
-
-
-if __name__ == '__main__':
-    ag_hls_url = 'https://hls-base1.mitene.ad.jp/agqr1/iphone/3Gs.m3u8'
-    ag = AGRP(ag_hls_url,
-            'C:\\Workspace\\Tmp\\',
-            {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0'})
-    ag.download_until(datetime.datetime(2023, 1, 31, 15, 00, 0))
-    ag.encode('C:\\Workspace\\out.mp4')
 
