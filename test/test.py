@@ -44,10 +44,10 @@ def test_agutil():
 
 def main():
     sys.path.append('agrecorder')
-    #test_agpg()
-    #test_agrp()
+    test_agpg()
+    test_agrp()
     test_agrw()
-    #test_agutil()
+    test_agutil()
 
 
 if __name__ == '__main__':
