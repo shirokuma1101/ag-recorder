@@ -2,6 +2,7 @@
 from window.window import Window
 
 
+# ag record window
 class AGRW(Window):
 
     def click_button_settings(self, event):

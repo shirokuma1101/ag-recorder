@@ -1,11 +1,14 @@
 # standard
 import configparser
 import os
-import requests
 import shutil
 import urllib.parse
 
+# scraping
+import requests
 
+
+# ag utility
 class AGUtil:
 
     def __init__(self, config_path: str):

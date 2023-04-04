@@ -1,9 +1,11 @@
 # standard
 import datetime
 import os
-import requests
 import subprocess
 import time
+
+# scraping
+import requests
 
 # m3u8
 import m3u8
@@ -54,6 +56,7 @@ class HLS:
         subprocess.run(command, shell=True)
 
 
+# ag record process
 class AGRP:
 
     # public
