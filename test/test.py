@@ -39,7 +39,7 @@ def test_agutil():
     #from agrecorder.agutil import AGUtil
     from agutil import AGUtil
 
-    agutil = AGUtil('config.ini')
+    agutil = AGUtil('ag-recorder.ini')
     agutil.get_ffmpeg()
 
 def main():
