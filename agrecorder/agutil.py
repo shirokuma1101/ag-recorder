@@ -2,7 +2,7 @@
 import configparser
 import os
 import shutil
-import urllib.parse
+from urllib.parse import urlparse
 
 # scraping
 import requests
@@ -18,7 +18,7 @@ class AGUtil:
 
     def get_ffmpeg(self):
         url = self.config['SETTING']['ffmpeg_url']
-        orig_name = os.path.basename(urllib.parse.urlparse(url).path)
+        orig_name = os.path.basename(urlparse(url).path)
         zip_path = f'{self.bin_dir}/{orig_name}'
         ffmpeg_dir = f'{self.bin_dir}/ffmpeg'
 
