@@ -1,5 +1,4 @@
 # standard
-import configparser
 import os
 import shutil
 from urllib.parse import urlparse
@@ -11,21 +10,19 @@ import requests
 # ag utility
 class AGUtil:
 
-    def __init__(self, config_path: str):
-        self.config = configparser.ConfigParser()
-        self.config.read(config_path)
-        self.bin_dir = self.config['SETTING']['bin_dir']
+    def __init__(self):
+        pass
 
-    def get_ffmpeg(self):
-        url = self.config['SETTING']['ffmpeg_url']
-        orig_name = os.path.basename(urlparse(url).path)
-        zip_path = f'{self.bin_dir}/{orig_name}'
-        ffmpeg_dir = f'{self.bin_dir}/ffmpeg'
+    @staticmethod
+    def get_ffmpeg(bin_dir: str, ffmpeg_url: str):
+        orig_name = os.path.basename(urlparse(ffmpeg_url).path)
+        zip_path = f'{bin_dir}/{orig_name}'
+        ffmpeg_dir = f'{bin_dir}/ffmpeg'
 
-        data = requests.get(url).content
+        data = requests.get(ffmpeg_url).content
         with open(zip_path, 'wb') as f:
             f.write(data)
-        shutil.unpack_archive(zip_path, self.bin_dir)
+        shutil.unpack_archive(zip_path, bin_dir)
 
         if os.path.exists(path=ffmpeg_dir):
             shutil.rmtree(path=ffmpeg_dir)
