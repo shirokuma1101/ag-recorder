@@ -76,7 +76,7 @@ class Window ( wx.Frame ):
 		self.panel_reservelist.SetSizer( sizer_reservelist )
 		self.panel_reservelist.Layout()
 		sizer_reservelist.Fit( self.panel_reservelist )
-		self.notebook_contents.AddPage( self.panel_reservelist, u"予約一覧", False )
+		self.notebook_contents.AddPage( self.panel_reservelist, u"予約一覧", True )
 		self.panel_recordedlist = wx.Panel( self.notebook_contents, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		sizer_recordedlist = wx.BoxSizer( wx.HORIZONTAL )
 
@@ -105,22 +105,11 @@ class Window ( wx.Frame ):
 		self.panel_recordedlist.SetSizer( sizer_recordedlist )
 		self.panel_recordedlist.Layout()
 		sizer_recordedlist.Fit( self.panel_recordedlist )
-		self.notebook_contents.AddPage( self.panel_recordedlist, u"録画一覧", True )
+		self.notebook_contents.AddPage( self.panel_recordedlist, u"録画一覧", False )
 		self.panel_pg = wx.Panel( self.notebook_contents, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		sizer_pg = wx.BoxSizer( wx.VERTICAL )
 
 		self.notebook_pgdates = wx.Notebook( self.panel_pg, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.panel_pg1 = wx.Panel( self.notebook_pgdates, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		sizer_pg1 = wx.BoxSizer( wx.VERTICAL )
-
-		self.listctrl_pg1 = wx.ListCtrl( self.panel_pg1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_HRULES|wx.LC_REPORT|wx.LC_VRULES )
-		sizer_pg1.Add( self.listctrl_pg1, 1, wx.ALL|wx.EXPAND, 0 )
-
-
-		self.panel_pg1.SetSizer( sizer_pg1 )
-		self.panel_pg1.Layout()
-		sizer_pg1.Fit( self.panel_pg1 )
-		self.notebook_pgdates.AddPage( self.panel_pg1, u"1/1", False )
 
 		sizer_pg.Add( self.notebook_pgdates, 1, wx.EXPAND |wx.ALL, 0 )
 
