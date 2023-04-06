@@ -1,3 +1,4 @@
+import configparser
 import datetime
 import sys
 
@@ -23,6 +24,7 @@ def test_agrp():
     ag = AGRP('https://hls-base1.mitene.ad.jp/agqr1/iphone/3Gs.m3u8', 'C:\\Workspace\\Tmp\\')
     ag.download_until(datetime.datetime(2023, 4, 3, 22, 5, 0))
     ag.encode('C:\\Workspace\\out.mp4', 'bin\\ffmpeg\\ffmpeg.exe')
+    ag.cleanup()
 
 
 def test_agrw():
@@ -39,8 +41,11 @@ def test_agutil():
     #from agrecorder.agutil import AGUtil
     from agutil import AGUtil
 
-    agutil = AGUtil('ag-recorder.ini')
-    agutil.get_ffmpeg()
+    config = configparser.ConfigParser()
+    config.read('ag-recorder.ini')
+
+    AGUtil.get_ffmpeg(config['SETTING']['bin_dir'], config['SETTING']['ffmpeg_url'])
+
 
 def main():
     sys.path.append('agrecorder')
