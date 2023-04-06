@@ -52,8 +52,10 @@ class HLS:
             f.write('\n'.join(['file ' + file_detail['name']
                     for file_detail in file_details]))
 
-        command = f'{ffmpeg_path} -y -loglevel error -f concat -i {filelist_path} -c copy {file_path}'
-        subprocess.run(command, shell=True)
+        cmd = f'{ffmpeg_path} -y -loglevel error -f concat -i {filelist_path} -c copy {file_path}'
+        subprocess.run(cmd, shell=True)
+
+        os.remove(filelist_path)
 
 
 # ag record process
@@ -65,6 +67,11 @@ class AGRP:
         self.ag_hls_url = ag_hls_url
         self.output_dir = output_dir
         self.headers = headers
+        self.file_details = []
+
+    def cleanup(self) -> None:
+        for file_detail in self._make_unique_file_details():
+            os.remove(file_detail['path'])
         self.file_details = []
 
     def download(self) -> None:
