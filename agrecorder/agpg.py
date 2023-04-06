@@ -45,8 +45,8 @@ class AGPG:
                 start_dt = datetime.datetime(dt.year, dt.month, dt.day, airtime[0][0], airtime[0][1])
                 # 終了時間が24時の場合は翌日の0時に変換
                 end_dt = (datetime.datetime(dt.year, dt.month, dt.day, airtime[1][0], airtime[1][1])
-                        if airtime[1][0] < 24 else
-                        datetime.datetime(dt.year, dt.month, dt.day, airtime[1][0] - 24, airtime[1][1]) + datetime.timedelta(days=1))
+                          if airtime[1][0] < 24 else
+                          datetime.datetime(dt.year, dt.month, dt.day, airtime[1][0] - 24, airtime[1][1]) + datetime.timedelta(days=1))
                 agpgs.append(self._create_agpg(pg, start_dt, end_dt))
 
         return agpgs
