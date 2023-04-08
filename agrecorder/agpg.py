@@ -13,7 +13,8 @@ class AGPG:
 
     # public
 
-    DATE_FORMAT = '%Y-%m-%d %H:%M'
+    DATE_FORMAT = '%Y%m%d'
+    DATETIME_FORMAT = '%Y-%m-%d %H:%M'
     AGPG_URL = 'https://www.joqr.co.jp/qr/agdailyprogram/'
 
     def __init__(self, headers: dict = None):
@@ -63,13 +64,13 @@ class AGPG:
         with open(file_path, 'r', encoding='utf-8') as f:
             agpgs = json.load(f)
         for agpg in agpgs:
-            agpg['airtime'] = [datetime.datetime.strptime(agpg['airtime'][0], cls.DATE_FORMAT), datetime.datetime.strptime(agpg['airtime'][1], cls.DATE_FORMAT)]
+            agpg['airtime'] = [datetime.datetime.strptime(agpg['airtime'][0], cls.DATETIME_FORMAT), datetime.datetime.strptime(agpg['airtime'][1], cls.DATETIME_FORMAT)]
         return agpgs
 
     @classmethod
     def save(cls, agpgs: list, file_path: str) -> None:
         for agpg in agpgs:
-            agpg['airtime'] = [agpg['airtime'][0].strftime(cls.DATE_FORMAT), agpg['airtime'][1].strftime(cls.DATE_FORMAT)]
+            agpg['airtime'] = [agpg['airtime'][0].strftime(cls.DATETIME_FORMAT), agpg['airtime'][1].strftime(cls.DATETIME_FORMAT)]
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(agpgs, f, ensure_ascii=False, indent=None)
 
