@@ -1,6 +1,13 @@
+# standard
+import datetime
+
 # wx
 import wx
 
+# agpg
+from agpg import AGPG
+# agrp
+from agrp import AGRP
 # window
 from window.window import Window
 
@@ -10,14 +17,18 @@ class AGRW(Window):
 
     # public
 
-    def __init__(self, parent):
-        super().__init__(parent)
+    ONE_WEEK = 7
+
+    def __init__(self, agpg: AGPG, agrp: AGRP):
+        super().__init__(None)
+        self.agpg = agpg
+        self.agrp = agrp
 
         # 1週間分のページを作成
         self.panel_pgs = []
-        self.listctrl_pg = []
+        self.listctrl_pgs = []
 
-        for i in range(7):
+        for i in range(self.ONE_WEEK):
             panel_pg = wx.Panel(self.notebook_pgdates, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
             sizer_pg = wx.BoxSizer(wx.VERTICAL)
 
@@ -30,19 +41,21 @@ class AGRW(Window):
             self.notebook_pgdates.AddPage(panel_pg, f'{i+1}', False)
 
             self.panel_pgs.append(panel_pg)
-            self.listctrl_pg.append(listctrl_pg)
+            self.listctrl_pgs.append(listctrl_pg)
 
     def click_button_settings(self, event):
         event.Skip()
         print('click_button_settings')
 
     def click_button_agpgget(self, event):
-        event.Skip()
-        print('click_button_agpgget')
+        for i in range(self.ONE_WEEK):
+            date = datetime.date.today() + datetime.timedelta(days=i)
+            self.agpg.save(self.agpg.get_by_day(date), f"{date.strftime(self.agpg.DATE_FORMAT)}.json") #todo configの保存先を指定するようにする
 
     def click_button_agpgreload(self, event):
-        event.Skip()
-        print('click_button_agpgreload')
+        for i in range(self.ONE_WEEK):
+            date = datetime.date.today() + datetime.timedelta(days=i)
+            self.agpg.load(f"{date.strftime(self.agpg.DATE_FORMAT)}.json") #todo configの保存先を指定するようにする
 
     def click_button_immediatelyrecord(self, event):
         event.Skip()

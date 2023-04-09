@@ -32,7 +32,7 @@ def test_agrw():
     from agrw import AGRW
 
     app = wx.App()
-    frame = AGRW(None)
+    frame = AGRW()
     frame.Show()
     app.MainLoop()
 
