@@ -1,5 +1,7 @@
+# standard
 import configparser
 import datetime
+import os
 import sys
 
 from pprint import pprint
@@ -7,8 +9,7 @@ import wx
 
 
 def test_agpg():
-    #from agrecorder.agpg import AGPG
-    from agpg import AGPG
+    from agrecorder.agpg import AGPG
 
     agpg = AGPG()
     pprint(agpg.get_by_day())
@@ -18,8 +19,7 @@ def test_agpg():
 
 
 def test_agrp():
-    #from agrecorder.agrp import AGRP
-    from agrp import AGRP
+    from agrecorder.agrp import AGRP
 
     ag = AGRP('https://hls-base1.mitene.ad.jp/agqr1/iphone/3Gs.m3u8', 'C:\\Workspace\\Tmp\\')
     ag.download_until(datetime.datetime(2023, 4, 3, 22, 5, 0))
@@ -28,8 +28,7 @@ def test_agrp():
 
 
 def test_agrw():
-    #from agrecorder.agrw import AGRW
-    from agrw import AGRW
+    from agrecorder.agrw import AGRW
 
     app = wx.App()
     frame = AGRW()
@@ -38,8 +37,7 @@ def test_agrw():
 
 
 def test_agutil():
-    #from agrecorder.agutil import AGUtil
-    from agutil import AGUtil
+    from agrecorder.agutil import AGUtil
 
     config = configparser.ConfigParser()
     config.read('ag-recorder.ini')
@@ -48,7 +46,7 @@ def test_agutil():
 
 
 def main():
-    sys.path.append('agrecorder')
+    sys.path.append('.')
     test_agpg()
     test_agrp()
     test_agrw()

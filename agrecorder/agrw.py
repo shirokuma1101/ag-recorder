@@ -5,11 +5,11 @@ import datetime
 import wx
 
 # agpg
-from agpg import AGPG
+from agrecorder.agpg import AGPG
 # agrp
-from agrp import AGRP
+from agrecorder.agrp import AGRP
 # window
-from window.window import Window
+from agrecorder.window.window import Window
 
 
 # ag record window
