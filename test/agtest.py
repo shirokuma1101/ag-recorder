@@ -30,10 +30,8 @@ def test_agrp():
 def test_agrw():
     from agrecorder.agrw import AGRW
 
-    app = wx.App()
-    frame = AGRW()
-    frame.Show()
-    app.MainLoop()
+    agrw = AGRW(None, None)
+    agrw.run()
 
 
 def test_agutil():
