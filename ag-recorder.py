@@ -13,10 +13,8 @@ def main():
     agpg = AGPG()
     agrp = AGRP('https://hls-base1.mitene.ad.jp/agqr1/iphone/3Gs.m3u8', 'C:\\Workspace\\Tmp\\')
 
-    app = wx.App()
     agrw = AGRW(agpg, agrp)
-    agrw.Show()
-    app.MainLoop()
+    agrw.run()
 
 
 if __name__ == '__main__':

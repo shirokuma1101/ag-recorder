@@ -20,6 +20,8 @@ class AGRW(Window):
     ONE_WEEK = 7
 
     def __init__(self, agpg: AGPG, agrp: AGRP):
+        self.app = wx.App()
+
         super().__init__(None)
         self.agpg = agpg
         self.agrp = agrp
@@ -83,4 +85,8 @@ class AGRW(Window):
     def click_button_recordedopen(self, event):
         event.Skip()
         print('click_button_recordedopen')
+
+    def run(self):
+        self.Show()
+        self.app.MainLoop()
 
