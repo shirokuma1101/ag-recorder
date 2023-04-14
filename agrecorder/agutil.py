@@ -10,11 +10,13 @@ import requests
 # ag utility
 class AGUtil:
 
+    # public
+
     def __init__(self):
         pass
 
     @staticmethod
-    def get_ffmpeg(bin_dir: str, ffmpeg_url: str):
+    def get_ffmpeg(bin_dir: str, ffmpeg_url: str) -> str:
         orig_name = os.path.basename(urlparse(ffmpeg_url).path)
         zip_path = f'{bin_dir}/{orig_name}'
         ffmpeg_dir = f'{bin_dir}/ffmpeg'
@@ -30,4 +32,6 @@ class AGUtil:
         shutil.move(f'{os.path.splitext(zip_path)[0]}/bin', ffmpeg_dir)
         os.remove(path=zip_path)
         shutil.rmtree(path=os.path.splitext(zip_path)[0])
+
+        return f'{ffmpeg_dir}/ffmpeg.exe'
 
