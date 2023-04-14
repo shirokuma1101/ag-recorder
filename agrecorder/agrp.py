@@ -63,8 +63,10 @@ class AGRP:
 
     # public
 
-    def __init__(self, ag_hls_url: str, output_dir: str, headers: dict = None):
+    #todo: setter
+    def __init__(self, ag_hls_url: str, ffmpeg_path: str, output_dir: str, headers: dict = None):
         self.ag_hls_url = ag_hls_url
+        self.ffmpeg_path = ffmpeg_path
         self.output_dir = output_dir
         self.headers = headers
         self.file_details = []
@@ -103,8 +105,8 @@ class AGRP:
 
         self.file_details.append(HLS.download(self.ag_hls_url, self.output_dir, self.headers))
 
-    def encode(self, file_path: str, ffmpeg_path: str) -> None:
-        HLS.encode(self._make_unique_file_details(), self.output_dir, file_path, ffmpeg_path)
+    def encode(self, file_path: str) -> None:
+        HLS.encode(self._make_unique_file_details(), self.output_dir, file_path, self.ffmpeg_path)
 
     # private
 
