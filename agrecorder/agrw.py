@@ -52,12 +52,13 @@ class AGRW(Window):
     def click_button_agpgget(self, event):
         for i in range(self.ONE_WEEK):
             date = datetime.date.today() + datetime.timedelta(days=i)
-            self.agpg.save(self.agpg.get_by_day(date), f"{date.strftime(self.agpg.DATE_FORMAT)}.json") #todo configの保存先を指定するようにする
+            self.agpg.save(self.agpg.get_by_day(date), f'{self.agpg.agpgs_dir}/{date.strftime(self.agpg.DATE_FORMAT)}.json')
 
     def click_button_agpgreload(self, event):
         for i in range(self.ONE_WEEK):
             date = datetime.date.today() + datetime.timedelta(days=i)
-            self.agpg.load(f"{date.strftime(self.agpg.DATE_FORMAT)}.json") #todo configの保存先を指定するようにする
+            self.agpg.load(f'{self.agpg.agpgs_dir}/{date.strftime(self.agpg.DATE_FORMAT)}.json')
+            self.notebook_pgdates.SetLabelText()
 
     def click_button_immediatelyrecord(self, event):
         event.Skip()

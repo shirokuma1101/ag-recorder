@@ -17,7 +17,8 @@ class AGPG:
     DATETIME_FORMAT = '%Y-%m-%d %H:%M'
     AGPG_URL = 'https://www.joqr.co.jp/qr/agdailyprogram/'
 
-    def __init__(self, headers: dict = None):
+    def __init__(self, agpgs_dir: str, headers: dict = None):
+        self.agpgs_dir = agpgs_dir
         self.headers = headers
 
     def get_by_day(self, dt: datetime.datetime = datetime.datetime.now()) -> list:
