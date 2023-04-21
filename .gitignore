@@ -129,5 +129,6 @@ dmypy.json
 .pyre/
 
 # custom
+/agpgs
 /bin
 agrecorder/window/window.fbp
