@@ -12,8 +12,8 @@ def main():
     config = configparser.ConfigParser()
     config.read('ag-recorder.ini')
 
-    agpg = AGPG(config['SETTINGS']['AGPGS_DIR'])
-    agrp = AGRP(config['SETTINGS']['AG_HLS_URL'], config['SETTINGS']['FFMPEG_PATH'], config['SETTINGS']['OUTPUT_DIR'])
+    agpg = AGPG(config['SETTING']['AGPGS_DIR'])
+    agrp = AGRP(config['SETTING']['AG_HLS_URL'], config['SETTING']['FFMPEG_PATH'], config['SETTING']['OUTPUT_DIR'])
 
     agrw = AGRW(agpg, agrp)
     agrw.run()
