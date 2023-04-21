@@ -86,7 +86,7 @@ class AGPG:
         agpg['title']           = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).text).strip()
         agpg['personality']     = personality.text.strip() if personality != None else "None"
         agpg['description']     = (pg.find('div', attrs={'class': 'dailyProgram-itemDescription rm_container'}).text).strip()
-        agpg['repeat']          = True if 'is-repeat' in " ".join(pg.get('class')) else False
+        agpg['repeat']          = True if 'is-repeat' in ' '.join(pg.get('class')) else False
         agpg['url']             = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).find('a').get('href')).strip()
         return agpg
 
