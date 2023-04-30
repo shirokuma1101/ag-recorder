@@ -73,6 +73,8 @@ class AGRW(Window):
         self.Show()
         self.app.MainLoop()
 
+    # private
+
     def _make_week_pages(self):
         for i in range(self.ONE_WEEK):
             panel_pg = wx.Panel(self.notebook_pgdates, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)

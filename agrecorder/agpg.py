@@ -1,6 +1,7 @@
 # standard
 import datetime
 import json
+import os
 import re
 
 # scraping
@@ -61,6 +62,9 @@ class AGPG:
 
     @classmethod
     def load(cls, file_path: str) -> list:
+        if (os.path.exists(file_path) == False):
+            return []
+
         agpgs = []
         with open(file_path, 'r', encoding='utf-8') as f:
             agpgs = json.load(f)
