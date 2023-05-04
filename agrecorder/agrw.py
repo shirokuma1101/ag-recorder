@@ -37,10 +37,10 @@ class AGRW(Window):
         print('click_button_settings')
 
     def click_button_agpgget(self, event):
-        self.agpg_get()
+        self._agpg_get()
 
     def click_button_agpgreload(self, event):
-        self.agpg_load()
+        self._agpg_load()
 
     def click_button_immediatelyrecord(self, event):
         event.Skip()
