@@ -81,9 +81,13 @@ class AGRW(Window):
             sizer_pg = wx.BoxSizer(wx.VERTICAL)
 
             listctrl_pg = wx.ListCtrl(panel_pg, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_HRULES | wx.LC_REPORT | wx.LC_VRULES)
-            listctrl_pg.AppendColumn('放送時間')
-            listctrl_pg.AppendColumn('番組名')
-            listctrl_pg.AppendColumn('出演者')
+            listctrl_pg.AppendColumn(AGPG.Items.ID.name)
+            listctrl_pg.AppendColumn(AGPG.Items.AIRTIME.name)
+            listctrl_pg.AppendColumn(AGPG.Items.TITLE.name)
+            listctrl_pg.AppendColumn(AGPG.Items.PERSONALITY.name)
+            listctrl_pg.AppendColumn(AGPG.Items.DESCRIPTION.name)
+            listctrl_pg.AppendColumn(AGPG.Items.REPEAT.name)
+            listctrl_pg.AppendColumn(AGPG.Items.URL.name)
             sizer_pg.Add(listctrl_pg, 1, wx.ALL | wx.EXPAND, 0)
 
             panel_pg.SetSizer(sizer_pg)
@@ -106,7 +110,11 @@ class AGRW(Window):
             self.notebook_pgdates.SetPageText(i, date.strftime('%m/%d'))
             self.listctrl_pgs[i].DeleteAllItems()
             for j, agpg in enumerate(apgp):
-                self.listctrl_pgs[i].InsertItem(j, f"{agpg['airtime'][0].strftime('%H:%M')}")
-                self.listctrl_pgs[i].SetItem(j, 1, agpg['title'])
-                self.listctrl_pgs[i].SetItem(j, 2, agpg['personality'])
+                self.listctrl_pgs[i].InsertItem(j, agpg[AGPG.Items.ID.name.lower()])
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.AIRTIME.value,     f"{agpg[AGPG.Items.AIRTIME.name.lower()][0].strftime('%H:%M')} - {agpg[AGPG.Items.AIRTIME.name.lower()][1].strftime('%H:%M')}")
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.TITLE.value,       agpg[AGPG.Items.TITLE.name.lower()])
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.PERSONALITY.value, agpg[AGPG.Items.PERSONALITY.name.lower()])
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.DESCRIPTION.value, agpg[AGPG.Items.DESCRIPTION.name.lower()])
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.REPEAT.value,      str(agpg[AGPG.Items.REPEAT.name.lower()]))
+                self.listctrl_pgs[i].SetItem(j, AGPG.Items.URL.value,         agpg[AGPG.Items.URL.name.lower()])
 

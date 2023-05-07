@@ -3,6 +3,7 @@ import datetime
 import json
 import os
 import re
+from enum import Enum, auto
 
 # scraping
 import requests
@@ -17,6 +18,15 @@ class AGPG:
     DATE_FORMAT = '%Y%m%d'
     DATETIME_FORMAT = '%Y-%m-%d %H:%M'
     AGPG_URL = 'https://www.joqr.co.jp/qr/agdailyprogram/'
+
+    class Items(Enum):
+        ID = 0
+        AIRTIME = auto()
+        TITLE = auto()
+        PERSONALITY = auto()
+        DESCRIPTION = auto()
+        REPEAT = auto()
+        URL = auto()
 
     def __init__(self, agpgs_dir: str, headers: dict = None):
         self.agpgs_dir = agpgs_dir
@@ -85,13 +95,13 @@ class AGPG:
         agpg = {}
         data_hc_content = (pg.find('div', attrs={'class': 'dailyProgram-itemDetail'}).get('data-hc-content'))
         personality = pg.find('p', attrs={'class': 'dailyProgram-itemPersonality'})
-        agpg['data-hc-content'] = data_hc_content if data_hc_content != None else "None"
-        agpg['airtime']         = [start_dt, end_dt]
-        agpg['title']           = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).text).strip()
-        agpg['personality']     = personality.text.strip() if personality != None else "None"
-        agpg['description']     = (pg.find('div', attrs={'class': 'dailyProgram-itemDescription rm_container'}).text).strip()
-        agpg['repeat']          = True if 'is-repeat' in ' '.join(pg.get('class')) else False
-        agpg['url']             = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).find('a').get('href')).strip()
+        agpg[self.Items.ID.name.lower()]          = data_hc_content if data_hc_content != None else "None"
+        agpg[self.Items.AIRTIME.name.lower()]     = [start_dt, end_dt]
+        agpg[self.Items.TITLE.name.lower()]       = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).text).strip()
+        agpg[self.Items.PERSONALITY.name.lower()] = personality.text.strip() if personality != None else "None"
+        agpg[self.Items.DESCRIPTION.name.lower()] = (pg.find('div', attrs={'class': 'dailyProgram-itemDescription rm_container'}).text).strip()
+        agpg[self.Items.REPEAT.name.lower()]      = True if 'is-repeat' in ' '.join(pg.get('class')) else False
+        agpg[self.Items.URL.name.lower()]         = (pg.find('p', attrs={'class': 'dailyProgram-itemTitle'}).find('a').get('href')).strip()
         return agpg
 
     def _get_airtime(self, pg: BeautifulSoup) -> list:
