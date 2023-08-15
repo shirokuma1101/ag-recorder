@@ -109,6 +109,13 @@ class AGRW(Window):
             apgp = self.agpg.load(f'{self.agpg.agpgs_dir}/{date.strftime(self.agpg.DATE_FORMAT)}.json')
             self.notebook_pgdates.SetPageText(i, date.strftime('%m/%d'))
             self.listctrl_pgs[i].DeleteAllItems()
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.ID.value,          50)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.AIRTIME.value,     80)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.TITLE.value,       200)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.PERSONALITY.value, 100)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.DESCRIPTION.value, 200)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.REPEAT.value,      60)
+            self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.URL.value,         200)
             for j, agpg in enumerate(apgp):
                 self.listctrl_pgs[i].InsertItem(j, agpg[AGPG.Items.ID.name.lower()])
                 self.listctrl_pgs[i].SetItem(j, AGPG.Items.AIRTIME.value,     f"{agpg[AGPG.Items.AIRTIME.name.lower()][0].strftime('%H:%M')} - {agpg[AGPG.Items.AIRTIME.name.lower()][1].strftime('%H:%M')}")
