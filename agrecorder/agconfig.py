@@ -11,10 +11,10 @@ class AGConfig:
         self.config = configparser.ConfigParser()
         self.config.read(config_path)
 
-        self.settings    = self.config['SETTING']
-        self.agpgs_dir   = self.settings['AGPGS_DIR']
-        self.ffmpeg_path = self.settings['FFMPEG_PATH']
-        self.ffplay_path = self.settings['FFPLAY_PATH']
-        self.headers     = self.settings['HEADERS']
-        self.output_dir  = self.settings['OUTPUT_DIR']
+        self.settings     = self.config['SETTING']
+        self.agpgs_dir    = self.settings['AGPGS_DIR']
+        self.ffmpeg_path  = self.settings['FFMPEG_PATH']
+        self.ffplay_path  = self.settings['FFPLAY_PATH']
+        self.headers      = self.settings['HEADERS']
+        self.recorded_dir = self.settings['RECORDED_DIR']
 
