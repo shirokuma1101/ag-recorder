@@ -22,8 +22,8 @@ class AGUtil:
         """
         raise NotImplementedError
 
-    @staticmethod
-    def get_ffmpeg(bin_dir: str) -> str:
+    @classmethod
+    def get_ffmpeg(cls, bin_dir: str) -> str:
         """Download and extract ffmpeg to the specified directory.
 
         Args:
@@ -35,7 +35,7 @@ class AGUtil:
         # ffmpeg dir
         ffmpeg_dir = f'{bin_dir}/ffmpeg'
         # at the moment it parses "ffmpeg-master-latest-win64-gpl-shared.zip" from url
-        zip_path = f'{bin_dir}/{os.path.basename(urlparse(AGUtil.FFMPEG_RELEASE_URL).path)}'
+        zip_path = f'{bin_dir}/{os.path.basename(urlparse(cls.FFMPEG_RELEASE_URL).path)}'
 
         # download and extract ffmpeg
         with open(zip_path, 'wb') as f:
