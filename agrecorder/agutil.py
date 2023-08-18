@@ -12,26 +12,41 @@ class AGUtil:
 
     # public
 
+    FFMPEG_RELEASE_URL = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip'
+
     def __init__(self):
-        pass
+        raise NotImplementedError
 
     @staticmethod
-    def get_ffmpeg(bin_dir: str, ffmpeg_url: str) -> str:
-        orig_name = os.path.basename(urlparse(ffmpeg_url).path)
-        zip_path = f'{bin_dir}/{orig_name}'
-        ffmpeg_dir = f'{bin_dir}/ffmpeg'
+    def get_ffmpeg(bin_dir: str) -> str:
+        """Download and extract ffmpeg to the specified directory.
 
-        data = requests.get(ffmpeg_url).content
+        Args:
+            bin_dir (str): The directory to download and extract ffmpeg to.
+
+        Returns:
+            str: The path to the extracted ffmpeg directory.
+        """
+        # ffmpeg dir
+        ffmpeg_dir = f'{bin_dir}/ffmpeg'
+        # at the moment it parses "ffmpeg-master-latest-win64-gpl-shared.zip" from url
+        zip_path = f'{bin_dir}/{os.path.basename(urlparse(AGUtil.FFMPEG_RELEASE_URL).path)}'
+
+        # download and extract ffmpeg
         with open(zip_path, 'wb') as f:
-            f.write(data)
+            f.write(requests.get(AGUtil.FFMPEG_RELEASE_URL).content)
         shutil.unpack_archive(zip_path, bin_dir)
 
-        if os.path.exists(path=ffmpeg_dir):
-            shutil.rmtree(path=ffmpeg_dir)
-
+        # remove old ffmpeg if exists
+        if os.path.exists(ffmpeg_dir):
+            shutil.rmtree(ffmpeg_dir)
+        # move extracted ffmpeg to ffmpeg dir
         shutil.move(f'{os.path.splitext(zip_path)[0]}/bin', ffmpeg_dir)
-        os.remove(path=zip_path)
-        shutil.rmtree(path=os.path.splitext(zip_path)[0])
 
-        return f'{ffmpeg_dir}/ffmpeg.exe'
+        # remove zip and extracted dir
+        os.remove(zip_path)
+        shutil.rmtree(os.path.splitext(zip_path)[0])
+
+        # return ffmpeg path
+        return ffmpeg_dir
 
