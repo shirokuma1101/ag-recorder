@@ -15,6 +15,11 @@ class AGUtil:
     FFMPEG_RELEASE_URL = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip'
 
     def __init__(self):
+        """This class provides utility functions for the AG Recorder.
+
+        Raises:
+            NotImplementedError: This class should not be instantiated.
+        """
         raise NotImplementedError
 
     @staticmethod
