@@ -1,5 +1,6 @@
 # standard
 import configparser
+import json
 
 
 # ag config
@@ -29,9 +30,13 @@ class AGConfig:
 
     @property
     def headers(self) -> dict:
-        return self.settings['HEADERS']
+        return json.loads(self.settings['HEADERS'])
 
     @property
     def recorded_dir(self) -> str:
         return self.settings['RECORDED_DIR']
+
+    @property
+    def recording_dir(self) -> str:
+        return self.settings['RECORDING_DIR']
 
