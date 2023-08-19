@@ -8,13 +8,30 @@ class AGConfig:
     # public
 
     def __init__(self, config_path: str):
-        self.config = configparser.ConfigParser()
-        self.config.read(config_path)
+        self._config = configparser.ConfigParser()
+        self._config.read(config_path)
 
-        self.settings     = self.config['SETTING']
-        self.agpgs_dir    = self.settings['AGPGS_DIR']
-        self.ffmpeg_path  = self.settings['FFMPEG_PATH']
-        self.ffplay_path  = self.settings['FFPLAY_PATH']
-        self.headers      = self.settings['HEADERS']
-        self.recorded_dir = self.settings['RECORDED_DIR']
+    @property
+    def settings(self) -> dict:
+        return self._config['SETTING']
+
+    @property
+    def agpgs_dir(self) -> str:
+        return self.settings['AGPGS_DIR']
+
+    @property
+    def ffmpeg_path(self) -> str:
+        return self.settings['FFMPEG_PATH']
+
+    @property
+    def ffplay_path(self) -> str:
+        return self.settings['FFPLAY_PATH']
+
+    @property
+    def headers(self) -> dict:
+        return self.settings['HEADERS']
+
+    @property
+    def recorded_dir(self) -> str:
+        return self.settings['RECORDED_DIR']
 
