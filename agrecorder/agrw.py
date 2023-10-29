@@ -1,6 +1,6 @@
 # standard
-import datetime
 import threading
+from datetime import date, datetime, timedelta
 
 # wx
 import wx
@@ -71,15 +71,30 @@ class AGRW(Window):
         print('click_button_recordedopen')
 
     def run(self):
-        #thread = threading.Thread(target=self._background)
+        # background thread
+        thread = threading.Thread(target=self._background, daemon=True)
+        thread.start()
+        # main loop
         self.Show()
         self.app.MainLoop()
 
     # private
 
     def _background(self):
-        #TODO: update agpg every 1 day
-        pass
+        before_dt = datetime.now().replace(microsecond=0)
+        while True:
+            now_dt = datetime.now().replace(microsecond=0)
+
+            # every 1 second
+            if now_dt != before_dt:
+                before_dt = now_dt
+
+                # 設定されたagpgs取得時間になったらagpgsを取得
+                if now_dt.time() in self._agconfig.get_agpgs_time:
+                    self._agpg_get()
+                    self._agpg_load()
+
+                # 設定された録画時間になったら録画を開始
 
     def _make_week_pages(self):
         for i in range(self.ONE_WEEK):
@@ -108,7 +123,7 @@ class AGRW(Window):
         #TODO: more efficiently
         self.agpgs.clear()
         for i in range(self.ONE_WEEK):
-            agpg = AGPG(self._agconfig, datetime.date.today() + datetime.timedelta(days=i))
+            agpg = AGPG(self._agconfig, date.today() + timedelta(days=i))
             agpg.get_by_day()
             agpg.save()
             self.agpgs.append(agpg)
@@ -116,7 +131,7 @@ class AGRW(Window):
     def _agpg_load(self):
         self.agpgs.clear()
         for i in range(self.ONE_WEEK):
-            date = datetime.date.today() + datetime.timedelta(days=i)
+            date = date.today() + timedelta(days=i)
             self.notebook_pgdates.SetPageText(i, date.strftime('%m/%d'))
             self.listctrl_pgs[i].DeleteAllItems()
             self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.ID.value,          50)
@@ -126,7 +141,7 @@ class AGRW(Window):
             self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.DESCRIPTION.value, 250)
             self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.REPEAT.value,      60)
             self.listctrl_pgs[i].SetColumnWidth(AGPG.Items.URL.value,         200)
-            agpg = AGPG(self._agconfig, datetime.date.today() + datetime.timedelta(days=i))
+            agpg = AGPG(self._agconfig, date.today() + timedelta(days=i))
             self.agpgs.append(agpg)
             for j, agpg in enumerate(agpg.load()):
                 self.listctrl_pgs[i].InsertItem(j, agpg[AGPG.Items.ID.name.lower()])

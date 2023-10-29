@@ -16,6 +16,7 @@ def test_agconfig():
     pprint(agconfig.agpgs_dir)
     pprint(agconfig.ffmpeg_path)
     pprint(agconfig.ffplay_path)
+    pprint(agconfig.get_agpgs_time)
     pprint(agconfig.headers)
     pprint(agconfig.recorded_dir)
 

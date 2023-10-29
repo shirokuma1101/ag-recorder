@@ -1,5 +1,6 @@
 # standard
 import configparser
+from datetime import datetime
 import json
 
 
@@ -27,6 +28,10 @@ class AGConfig:
     @property
     def ffplay_path(self) -> str:
         return self.settings['FFPLAY_PATH']
+
+    @property
+    def get_agpgs_time(self) -> list:
+        return [datetime.strptime(t, '%H:%M:%S').time() for t in eval(self.settings['GET_AGPGS_TIME'])]
 
     @property
     def headers(self) -> dict:
